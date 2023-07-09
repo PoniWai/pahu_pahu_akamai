@@ -1,8 +1,7 @@
+import app.wififuncs as wififuncs
 import _thread
 import time
-
 import app.webfuncs as webfuncs
-import app.wififuncs as wififuncs
 # from params import Params
 
 
@@ -20,6 +19,7 @@ def sensors_thread():
         else:
             Params.anal_sensors()
         print(i)
+
 
 def web_thread():
     while True:

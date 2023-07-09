@@ -2,3 +2,4 @@
 micropython/
 venv/
 .git/
+.vscode/
