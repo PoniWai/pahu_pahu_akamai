@@ -1,2 +1,4 @@
-/.idea/
-/micropython/
+.idea/
+micropython/
+venv/
+.git/
