@@ -1,0 +1,24 @@
+<h2>WiFi</h2>
+<form action="/save" method="post">
+    <input type="hidden" id="dict" name="dict" value="wifi">
+    <h3>Station</h3>
+    <label for="sta_ssid">SSID </label>
+    <input type="text" id="sta_ssid" name="sta_ssid" value="{0}">
+    <br>
+    <label for="sta_password">Password </label>
+    <input type="text" id="sta_password" name="sta_password" value="{1}">
+    <br>
+    <h3>Access Point</h3>
+    <label for="ap_ssid">SSID </label>
+    <input type="text" id="ap_ssid" name="ap_ssid" value="{2}">
+    <br>
+    <label for="ap_password">Password </label>
+    <input type="text" id="ap_password" name="ap_password" value="{3}">
+    <br>
+    <label for="ap_channel">Channel </label>
+    <input type="number" id="ap_channel" name="ap_channel" min="1" max="12" value="{4}">
+    <br>
+    <p>Legal password symbols: * - ! ? , . ; : _ ( ) ZalOopa 666</p>
+    <br>
+    <input type="submit" value="Save" class="button">
+</form>

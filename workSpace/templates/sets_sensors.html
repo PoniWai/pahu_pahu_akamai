@@ -1,0 +1,28 @@
+<h2>Optional Sensors</h2>
+<form action="/save" method="post">
+    <input type="hidden" id="dict" name="dict" value="sensors">
+    <h3>DS18B20</h3>
+    <label for="solution_temp">Miska </label>
+    <input type="checkbox" id="solution_temp" name="solution_temp" value="slt" {0}>
+    <br>
+    <label for="air_temp">Air </label>
+    <input type="checkbox" id="air_temp" name="air_temp" value="at" {1}>
+    <br>
+    <label for="space_temp">Space </label>
+    <input type="checkbox" id="space_temp" name="space_temp" value="spt" {2}>
+    <br><br>
+    <label for="dht11">DHT11 </label>
+    <input type="checkbox" id="dht11" name="dht11" value="th" {3}>
+    <br><br>
+    <label for="bmp085">BMP085 </label>
+    <input type="checkbox" id="bmp085" name="bmp085" value="tp" {4}>
+    <br>
+    <h3>Anal</h3>
+    <label for="co2">Carbon anhydride concentration </label>
+    <input type="checkbox" id="co2" name="co2" value="cac" {5}>
+    <br>
+    <label for="v_bat">Battery voltage </label>
+    <input type="checkbox" id="v_bat" name="v_bat" value="bv" {6}>
+    <br>
+    <input type="submit" value="Save" class="button">
+</form>

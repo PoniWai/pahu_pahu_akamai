@@ -1,0 +1,26 @@
+<h2>Power</h2>
+<form action="/save" method="post">
+    <input type="hidden" id="dict" name="dict" value="power">
+    <label for="v_bat_min">Battery Voltage min: {0} </label>
+    <input type="number" id="v_bat_min" name="v_bat_min" min="5" max="10" value="{0}">
+    <br>
+    <label for="v_bat_max">Battery Voltage max: {1} </label>
+    <input type="number" id="v_bat_max" name="v_bat_max" min="11" max="15" value="{1}">
+    <br>
+    <label for="v_ps_min">PS Voltage min: {2} </label>
+    <input type="number" id="v_ps_min" name="v_ps_min" min="10" max="14" value="{2}">
+    <br>
+    <label for="v_ps_max">PS Voltage max: {3} </label>
+    <input type="number" id="v_ps_max" name="v_ps_max" min="10" max="14" value="{3}">
+    <br>
+    <label for="brd_temp_min">Board Temperature min: {4} </label>
+    <input type="number" id="brd_temp_min" name="brd_temp_min" min="0" max="50" value="{4}">
+    <br>
+    <label for="brd_temp_max">Board Temperature max: {5} </label>
+    <input type="number" id="brd_temp_max" name="brd_temp_max" min="0" max="50" value="{5}">
+    <br>
+    <label for="high_voltage">High Voltage: {6} </label>
+    <input type="number" id="high_voltage" name="high_voltage" min="0" max="8" value="{6}">
+    <br>
+    <input type="submit" value="Save" class="button">
+</form>
