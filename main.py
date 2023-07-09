@@ -7,6 +7,8 @@ import app.wififuncs as wififuncs
 
 
 def sensors_thread():
+    """sensors htread
+    """
     i = 3000
     while True:
         i -= 1
