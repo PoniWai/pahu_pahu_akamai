@@ -1,8 +1,8 @@
 import _thread
 import time
 
-import webfuncs
-import wififuncs
+import app.webfuncs as webfuncs
+import app.wififuncs as wififuncs
 # from params import Params
 
 

@@ -5,7 +5,7 @@ import onewire
 from dht import DHT11
 from machine import Pin, ADC, SoftI2C
 
-from loads import anal_ps
+from app.loads import anal_ps
 from sets import Settings
 
 
