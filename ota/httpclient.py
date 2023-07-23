@@ -1,4 +1,8 @@
-import usocket, os, gc
+import usocket
+import os
+import gc
+
+
 class Response:
 
     def __init__(self, socket, saveToFile=None):
@@ -6,14 +10,14 @@ class Response:
         self._saveToFile = saveToFile
         self._encoding = 'utf-8'
         if saveToFile is not None:
-            CHUNK_SIZE = 512 # bytes
+            CHUNK_SIZE = 512  # bytes
             with open(saveToFile, 'w') as outfile:
                 data = self._socket.read(CHUNK_SIZE)
                 while data:
                     outfile.write(data)
                     data = self._socket.read(CHUNK_SIZE)
                 outfile.close()
-                
+
             self.close()
 
     def close(self):
@@ -24,7 +28,8 @@ class Response:
     @property
     def content(self):
         if self._saveToFile is not None:
-            raise SystemError('You cannot get the content from the response as you decided to save it in {}'.format(self._saveToFile))
+            raise SystemError(
+                'You cannot get the content from the response as you decided to save it in {}'.format(self._saveToFile))
 
         try:
             result = self._socket.read()
@@ -55,7 +60,8 @@ class HttpClient:
 
     def request(self, method, url, data=None, json=None, file=None, custom=None, saveToFile=None, headers={}, stream=None):
         chunked = data and self.is_chunked_data(data)
-        redirect = None #redirection url, None means no redirection
+        redirect = None  # redirection url, None means no redirection
+
         def _write_headers(sock, _headers):
             for k in _headers:
                 sock.write(b'{}: {}\r\n'.format(k, _headers[k]))
@@ -139,7 +145,7 @@ class HttpClient:
                 l = s.readline()
                 if not l or l == b'\r\n':
                     break
-                #print('l: ', l)
+                # print('l: ', l)
                 if l.startswith(b'Transfer-Encoding:'):
                     if b'chunked' in l:
                         raise ValueError('Unsupported ' + l)
@@ -147,7 +153,8 @@ class HttpClient:
                     if status in [301, 302, 303, 307, 308]:
                         redirect = l[10:-2].decode()
                     else:
-                        raise NotImplementedError("Redirect {} not yet supported".format(status))
+                        raise NotImplementedError(
+                            f"Redirect {status} not yet supported")
         except OSError:
             s.close()
             raise
@@ -159,7 +166,7 @@ class HttpClient:
             else:
                 return self.request(method, redirect, **kw)
         else:
-            resp = Response(s,saveToFile)
+            resp = Response(s, saveToFile)
             resp.status_code = status
             resp.reason = reason
             return resp
