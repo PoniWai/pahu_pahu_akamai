@@ -1,6 +1,6 @@
 import os
 import gc
-from ota.httpclient import HttpClient
+from httpclient import HttpClient
 
 
 class OTAUpdater:

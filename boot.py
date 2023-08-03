@@ -4,30 +4,32 @@ webrepl.start()
 print('Preewa')
 
 
-
 def connectToWifiAndUpdate():
-    import time, machine, network, gc, ota.secrets as secrets
+    import time
+    import machine
+    import network
+    import gc
+    import wififuncs
+    from ota_updater import OTAUpdater
     time.sleep(1)
-    print('Memory free', gc.mem_free())
+    print('Memory free:', gc.mem_free())
 
-    from ota.ota_updater import OTAUpdater
-
-    sta_if = network.WLAN(network.STA_IF)
-    if not sta_if.isconnected():
-        print('connecting to network...')
-        sta_if.active(True)
-        sta_if.connect(secrets.WIFI_SSID, secrets.WIFI_PASSWORD)
-        while not sta_if.isconnected():
-            pass
-    print('network config:', sta_if.ifconfig())
-    otaUpdater = OTAUpdater('https://github.com/rdehuyss/micropython-ota-updater', main_dir='ota',
-                            secrets_file="secrets.py")
-    hasUpdated = otaUpdater.install_update_if_available()
-    if hasUpdated:
-        machine.reset()
-    else:
-        del (otaUpdater)
-        gc.collect()
+    wlan = wififuncs.get_connection()
+    if wlan is not None:
+        network_config = wlan.ifconfig()
+        print(f'\nIP: {network_config[0]} \
+            Subnet: {network_config[1]} \
+            Gateway: {network_config[2]} \
+            DNS: {network_config[3]}')
+        otaUpdater = OTAUpdater('https://github.com/rdehuyss/micropython-ota-updater',
+                                main_dir='ota',
+                                secrets_file="secrets.py")
+        hasUpdated = otaUpdater.install_update_if_available()
+        if hasUpdated:
+            machine.reset()
+        else:
+            del (otaUpdater)
+            gc.collect()
 
 
 connectToWifiAndUpdate()

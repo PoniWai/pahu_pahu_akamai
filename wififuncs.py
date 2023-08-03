@@ -1,4 +1,4 @@
-from sets import Settings
+from app.sets import Settings
 
 import time
 import network
@@ -31,8 +31,8 @@ def get_connection():
             time.sleep(0.15)
             print('.', end='')
         print('\nNot connected to: ' + sets.wifi_dict['sta_ssid'])
-    except OSError as e:
-        print(e)
+    except OSError as exc:
+        print(exc)
     return None
 
 

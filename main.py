@@ -1,4 +1,4 @@
-import app.wififuncs as wififuncs
+import wififuncs
 import _thread
 import time
 import app.webfuncs as webfuncs
@@ -29,8 +29,10 @@ def web_thread():
             webfuncs.start_web('192.168.4.1')
         else:
             network_config = wlan.ifconfig()
-            print('\nIP: ' + network_config[0] + ' Subnet: ' + network_config[1] +
-                  ' Gateway: ' + network_config[2] + ' DNS: ' + network_config[3])
+            print(f'\nIP: {network_config[0]} \
+                Subnet: {network_config[1]} \
+                Gateway: {network_config[2]} \
+                DNS: {network_config[3]}')
             webfuncs.start_web(network_config[0])
 
 
