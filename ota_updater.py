@@ -13,8 +13,7 @@ class OTAUpdater:
         self.http_client = HttpClient(headers=headers)
         self.github_repo = github_repo.rstrip(
             '/').replace('https://github.com/', '')
-        self.github_src_dir = '' if len(
-            github_src_dir) < 1 else github_src_dir.rstrip('/') + '/'
+        self.github_src_dir = '' if len(github_src_dir) < 1 else github_src_dir.rstrip('/') + '/'
         self.module = module.rstrip('/')
         self.main_dir = main_dir
         self.new_version_dir = new_version_dir
@@ -166,7 +165,7 @@ class OTAUpdater:
         file_list.close()
 
     def _download_file(self, version, gitPath, path):
-        self.http_client.get(f'https://raw.githubusercontent.com/{self.github_repo}/{version}/{gitPathgitPath}', saveToFile=path)
+        self.http_client.get(f'https://raw.githubusercontent.com/{self.github_repo}/{version}/{gitPath}', saveToFile=path)
 
     def _copy_secrets_file(self):
         if self.secrets_file:

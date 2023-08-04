@@ -21,9 +21,9 @@ def connectToWifiAndUpdate():
             Subnet: {network_config[1]} \
             Gateway: {network_config[2]} \
             DNS: {network_config[3]}')
-        otaUpdater = OTAUpdater('https://github.com/rdehuyss/micropython-ota-updater',
-                                main_dir='ota',
-                                secrets_file="secrets.py")
+        otaUpdater = OTAUpdater('https://github.com/PoniWai/pahu_pahu_akamai',
+                                main_dir='app',
+                                secrets_file=None)
         hasUpdated = otaUpdater.install_update_if_available()
         if hasUpdated:
             machine.reset()

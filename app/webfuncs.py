@@ -1,6 +1,6 @@
-import pagefuncs
+import app.pagefuncs as pagefuncs
 # from params import Params
-from sets import Settings
+from app.sets import Settings
 
 try:
     import usocket as socket
