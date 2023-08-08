@@ -5,3 +5,4 @@ venv/
 .vscode/
 pymakr.conf
 webrepl_cfg.py
+settings.json

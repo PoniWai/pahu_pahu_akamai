@@ -4,7 +4,7 @@ import gc
 import _thread
 import time
 import app.webfuncs as webfuncs
-from app.ota_updater import OTAUpdater
+from ota_updater import OTAUpdater
 from app.sets import Settings
 # from params import Params
 
