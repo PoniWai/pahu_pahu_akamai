@@ -41,5 +41,6 @@ table, th, td {
 }
 
 input{
+    color:darkred;
     background-color: cyan;
 }

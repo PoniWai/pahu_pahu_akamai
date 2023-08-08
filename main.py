@@ -90,7 +90,7 @@ def connectToWifiAndUpdate():
 try:
     connectToWifiAndUpdate()
 except OSError as exc:
-    print(exc)
+    print('Update error:',exc)
 
 def web_thread():
     while True:
