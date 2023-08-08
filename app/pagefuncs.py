@@ -25,7 +25,7 @@ def give_head(client, title, refresh=None):
         <meta http-equiv="refresh" content="{refresh}">
         """)
     try:
-        with open('templates/black_style.css', 'r', encoding='utf-8') as file:
+        with open('app/templates/black_style.css', 'r', encoding='utf-8') as file:
             client.sendall(f"""\
             <link rel="icon" href="data:,">
             <style>{file.read()}</style>
@@ -48,7 +48,7 @@ def handle_index(client):
     send_header(client)
     give_head(client, 'Hujawei Index')
     try:
-        with open('templates/index.html', 'r', encoding='utf-8') as file:
+        with open('app/templates/index.html', 'r', encoding='utf-8') as file:
             client.sendall(file.read())
     except OSError as exc:
         print('Error:', exc)
@@ -59,7 +59,7 @@ def handle_monitor(client, pars):
     send_header(client)
     give_head(client, 'Hujawei Monitor', 20)
     try:
-        with open('templates/monitor.html', 'r', encoding='utf-8') as file:
+        with open('app/templates/monitor.html', 'r', encoding='utf-8') as file:
             client.sendall(
                 file.read().format(str(pars['pH']),
                                    str(pars['ec_upper']),
@@ -149,13 +149,13 @@ def handle_settings(client, request, sets):
     send_header(client)
     give_head(client, 'Hujawei Settings')
     try:
-        with open('templates/sets_menu.html', 'r', encoding='utf-8') as file:
+        with open('app/templates/sets_menu.html', 'r', encoding='utf-8') as file:
             client.sendall(file.read())
     except OSError as exc:
         print('Error:', exc)
     if sets_dict == 'wifi':
         try:
-            with open('templates/sets_wifi.html', 'r', encoding='utf-8') as file:
+            with open('app/templates/sets_wifi.html', 'r', encoding='utf-8') as file:
                 client.sendall(
                     file.read().format(sets.wifi_dict['sta_ssid'],
                                        sets.wifi_dict['sta_password'],
@@ -167,7 +167,7 @@ def handle_settings(client, request, sets):
             print('Error:', exc)
     elif sets_dict == 'solution':
         try:
-            with open('templates/sets_solution.html', 'r', encoding='utf-8') as file:
+            with open('app/templates/sets_solution.html', 'r', encoding='utf-8') as file:
                 client.sendall(
                     file.read().format(sets.solution_dict['pH_min'],
                                        sets.solution_dict['pH_max'],
@@ -180,7 +180,7 @@ def handle_settings(client, request, sets):
             print('Error:', exc)
     elif sets_dict == 'air':
         try:
-            with open('templates/sets_air.html', 'r', encoding='utf-8') as file:
+            with open('app/templates/sets_air.html', 'r', encoding='utf-8') as file:
                 client.sendall(
                     file.read().format(sets.air_dict['rh_min'],
                                        sets.air_dict['rh_max'],
@@ -193,7 +193,7 @@ def handle_settings(client, request, sets):
             print('Error:', exc)
     elif sets_dict == 'power':
         try:
-            with open('templates/sets_power.html', 'r', encoding='utf-8') as file:
+            with open('app/templates/sets_power.html', 'r', encoding='utf-8') as file:
                 client.sendall(
                     file.read().format(sets.power_dict['v_bat_min'],
                                        sets.power_dict['v_bat_max'],
@@ -207,7 +207,7 @@ def handle_settings(client, request, sets):
             print('Error:', exc)
     elif sets_dict == 'light':
         try:
-            with open('templates/sets_light.html', 'r', encoding='utf-8') as file:
+            with open('app/templates/sets_light.html', 'r', encoding='utf-8') as file:
                 client.sendall(
                     file.read().format(sets.light_dict['full_time'],
                                        sets.light_dict['seed_days'],
@@ -240,7 +240,7 @@ def handle_settings(client, request, sets):
             print('Error:', exc)
     elif sets_dict == 'sensors':
         try:
-            with open('templates/sets_sensors.html', 'r', encoding='utf-8') as file:
+            with open('app/templates/sets_sensors.html', 'r', encoding='utf-8') as file:
                 client.sendall(
                     file.read().format(sets.sensors_dict['solution_temp'],
                                        sets.sensors_dict['air_temp'],
