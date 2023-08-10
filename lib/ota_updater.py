@@ -13,7 +13,8 @@ class OTAUpdater:
         self.http_client = HttpClient(headers=headers)
         self.github_repo = github_repo.rstrip(
             '/').replace('https://github.com/', '')
-        self.github_src_dir = '' if len(github_src_dir) < 1 else github_src_dir.rstrip('/') + '/'
+        self.github_src_dir = '' if len(
+            github_src_dir) < 1 else github_src_dir.rstrip('/') + '/'
         self.module = module.rstrip('/')
         self.main_dir = main_dir
         self.new_version_dir = new_version_dir
@@ -22,49 +23,49 @@ class OTAUpdater:
     def __del__(self):
         self.http_client = None
 
-    def check_for_update_to_install_during_next_reboot(self) -> bool:
-        """Function which will check the GitHub repo if there is a newer version available.
+    # def check_for_update_to_install_during_next_reboot(self) -> bool:
+    #     """Function which will check the GitHub repo if there is a newer version available.
 
-        This method expects an active internet connection and will compare the current 
-        version with the latest version available on GitHub.
-        If a newer version is available, the file 'next/.version' will be created 
-        and you need to call machine.reset(). A reset is needed as the installation process 
-        takes up a lot of memory (mostly due to the http stack)
+    #     This method expects an active internet connection and will compare the current
+    #     version with the latest version available on GitHub.
+    #     If a newer version is available, the file 'next/.version' will be created
+    #     and you need to call machine.reset(). A reset is needed as the installation process
+    #     takes up a lot of memory (mostly due to the http stack)
 
-        Returns
-        -------
-            bool: true if a new version is available, false otherwise
-        """
+    #     Returns
+    #     -------
+    #         bool: true if a new version is available, false otherwise
+    #     """
 
-        (current_version, latest_version) = self._check_for_new_version()
-        if latest_version > current_version:
-            print('New version available, will download and install on next reboot')
-            self._create_new_version_file(latest_version)
-            return True
+    #     (current_version, latest_version) = self._check_for_new_version()
+    #     if latest_version > current_version:
+    #         print('New version available, will download and install on next reboot')
+    #         self._create_new_version_file(latest_version)
+    #         return True
 
-        return False
+    #     return False
 
-    def install_update_if_available_after_boot(self, ssid, password) -> bool:
-        """This method will install the latest version if out-of-date after boot.
+    # def install_update_if_available_after_boot(self, ssid, password) -> bool:
+    #     """This method will install the latest version if out-of-date after boot.
 
-        This method, which should be called first thing after booting, will check if the 
-        next/.version' file exists. 
+    #     This method, which should be called first thing after booting, will check if the
+    #     next/.version' file exists.
 
-        - If yes, it initializes the WIFI connection, downloads the latest version and installs it
-        - If no, the WIFI connection is not initialized as no new known version is available
-        """
+    #     - If yes, it initializes the WIFI connection, downloads the latest version and installs it
+    #     - If no, the WIFI connection is not initialized as no new known version is available
+    #     """
 
-        if self.new_version_dir in os.listdir(self.module):
-            if '.version' in os.listdir(self.modulepath(self.new_version_dir)):
-                latest_version = self.get_version(
-                    self.modulepath(self.new_version_dir), '.version')
-                print('New update found: ', latest_version)
-                OTAUpdater._using_network(ssid, password)
-                self.install_update_if_available()
-                return True
+    #     if self.new_version_dir in os.listdir(self.module):
+    #         if '.version' in os.listdir(self.modulepath(self.new_version_dir)):
+    #             latest_version = self.get_version(
+    #                 self.modulepath(self.new_version_dir), '.version')
+    #             print('New update found: ', latest_version)
+    #             OTAUpdater._using_network(ssid, password)
+    #             self.install_update_if_available()
+    #             return True
 
-        print('No new updates found...')
-        return False
+        # print('No new updates found...')
+        # return False
 
     def install_update_if_available(self) -> bool:
         """This method will immediately install the latest version if out-of-date.
@@ -83,24 +84,24 @@ class OTAUpdater:
             print(f'Updating to version {latest_version}...')
             self._create_new_version_file(latest_version)
             self._download_new_version(latest_version)
-            self._copy_secrets_file()
+            # self._copy_secrets_file()
             self._delete_old_version()
             self._install_new_version()
             return True
 
         return False
 
-    @staticmethod
-    def _using_network(ssid, password):
-        import network
-        sta_if = network.WLAN(network.STA_IF)
-        if not sta_if.isconnected():
-            print('connecting to network...')
-            sta_if.active(True)
-            sta_if.connect(ssid, password)
-            while not sta_if.isconnected():
-                pass
-        print('network config:', sta_if.ifconfig())
+    # @staticmethod
+    # def _using_network(ssid, password):
+    #     import network
+    #     sta_if = network.WLAN(network.STA_IF)
+    #     if not sta_if.isconnected():
+    #         print('connecting to network...')
+    #         sta_if.active(True)
+    #         sta_if.connect(ssid, password)
+    #         while not sta_if.isconnected():
+    #             pass
+    #     print('network config:', sta_if.ifconfig())
 
     def _check_for_new_version(self):
         current_version = self.get_version(self.modulepath(self.main_dir))
@@ -142,7 +143,8 @@ class OTAUpdater:
     def _download_new_version(self, version):
         print(f'Downloading version {version}')
         self._download_all_files(version)
-        print(f'Version {version} downloaded to {self.modulepath(self.new_version_dir)}')
+        print(
+            f'Version {version} downloaded to {self.modulepath(self.new_version_dir)}')
 
     def _download_all_files(self, version, sub_dir=''):
         url = f'https://api.github.com/repos/{self.github_repo}/contents{self.github_src_dir}{self.main_dir}{sub_dir}?ref=refs/tags/{version}'
@@ -165,16 +167,17 @@ class OTAUpdater:
         file_list.close()
 
     def _download_file(self, version, gitPath, path):
-        self.http_client.get(f'https://raw.githubusercontent.com/{self.github_repo}/{version}/{gitPath}', saveToFile=path)
+        self.http_client.get(
+            f'https://raw.githubusercontent.com/{self.github_repo}/{version}/{gitPath}', saveToFile=path)
 
-    def _copy_secrets_file(self):
-        if self.secrets_file:
-            fromPath = self.modulepath(self.main_dir + '/' + self.secrets_file)
-            toPath = self.modulepath(
-                self.new_version_dir + '/' + self.secrets_file)
-            print(f'Copying secrets file from {fromPath} to {toPath}')
-            self._copy_file(fromPath, toPath)
-            print(f'Copied secrets file from {fromPath} to {toPath}')
+    # def _copy_secrets_file(self):
+    #     if self.secrets_file:
+    #         fromPath = self.modulepath(self.main_dir + '/' + self.secrets_file)
+    #         toPath = self.modulepath(
+    #             self.new_version_dir + '/' + self.secrets_file)
+    #         print(f'Copying secrets file from {fromPath} to {toPath}')
+    #         self._copy_file(fromPath, toPath)
+    #         print(f'Copied secrets file from {fromPath} to {toPath}')
 
     def _delete_old_version(self):
         print(f'Deleting old version at {self.modulepath(self.main_dir)} ...')
@@ -182,7 +185,8 @@ class OTAUpdater:
         print(f'Deleted old version at {self.modulepath(self.main_dir)} ...')
 
     def _install_new_version(self):
-        print(f'Installing new version at {self.modulepath(self.main_dir)} ...')
+        print(
+            f'Installing new version at {self.modulepath(self.main_dir)} ...')
         if self._os_supports_rename():
             os.rename(self.modulepath(self.new_version_dir),
                       self.modulepath(self.main_dir))
