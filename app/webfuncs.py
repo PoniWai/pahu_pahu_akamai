@@ -42,7 +42,7 @@ def save_sets(client, request):
     if key is not None:
         sets = Settings.load_settings()
         if key == 'power':
-            if len(sets.power_dict_dict) == len(response_dict):
+            if len(sets.power_dict) == len(response_dict):
                 sets.power_dict = response_dict
         elif key == '1w':
             for k in sets.onewire_dict:

@@ -7,7 +7,7 @@ from machine import Pin, ADC, SoftI2C
 
 from app.loads import anal_ps
 from sets import Settings
-
+        
 
 class Params:
     solution_temp = -666

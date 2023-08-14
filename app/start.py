@@ -7,6 +7,7 @@ import esp32
 
 
 def web_thread():
+    #TODO Add sim800 connection
     while True:
         wlan = wifi.get_connection()
         if wlan is None:
