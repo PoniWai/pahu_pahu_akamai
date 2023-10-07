@@ -2,27 +2,31 @@ import time
 
 import ds18x20
 import onewire
-from dht import DHT11
-from machine import Pin, ADC, SoftI2C
+import dht
+from machine import Pin, ADC
 
 from app.loads import anal_ps
 from sets import Settings
         
 
 class Params:
+    #ds18b20
     solution_temp = -666
     air_temp = -666
     space_temp = -666
-    brd_dht_temp = -666
-    humidity = -666
-    brd_bmp_temp = -666
-    pressure = -666
+    #dht11
+    brd_temp = -666
+    brd_hmd = -666
+    #dht22
+    air_temp = -666
+    air_hmd = -666
+    
     pH = -666
     ec_upper = -666
     ec_lower = -666
     v_bat = -666
     v_ps = -666
-    co2 = -666
+    i_bat = -666
 
     # def __init__(self,
     #              solution_temp,
@@ -67,7 +71,8 @@ class Params:
             dht11.measure()
             Params.brd_dht_temp = dht11.temperature()
             Params.humidity = dht11.humidity()
-            # BMP085 sensor
+            # DHT22 sensor
+            dht22.measure()
             Params.brd_bmp_temp = bmp085.temperature
             Params.pressure = bmp085.pressure
         except OSError as e:
@@ -99,10 +104,8 @@ class Params:
 
 # anal pins
 
-co2 = ADC(Pin(34))
-co2.atten(ADC.ATTN_11DB)  # Full range: 3.3v
-co2_htr = Pin(15, Pin.OUT)  # pwm at boot
-co2_htr.off()
+current = ADC(Pin(34))
+current.atten(ADC.ATTN_11DB)  # Full range: 3.3v
 
 voltage = ADC(Pin(35))
 voltage.atten(ADC.ATTN_11DB)  # Full range: 3.3v
@@ -116,6 +119,6 @@ pH.atten(ADC.ATTN_11DB)  # Full range: 3.3v
 channel_sw = Pin(14, Pin.OUT)  # pwm at boot
 
 # digi sensors
-ds18b20 = ds18x20.DS18X20(onewire.OneWire(Pin(0)))  # pwm at boot, boot pin
-dht11 = DHT11(Pin(21))
-bmp085 = BMP085(SoftI2C(scl=Pin(23), sda=Pin(22), freq=100000))
+ds18b20 = ds18x20.DS18X20(onewire.OneWire(Pin(23)))  # pwm at boot, boot pin
+dht11 = dht.DHT11(Pin(21))
+dht22 = dht.DHT22(Pin(22))
