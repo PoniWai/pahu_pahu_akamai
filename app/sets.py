@@ -29,8 +29,7 @@ class Settings:
             'ap_ssid': 'HUJAWEI-STN29A',
             'ap_password': 'administrad0R',
             'ap_channel': 7,
-            'sta_dict': {'SzpielP': 'Peezda345!?,.',
-            'Gdanska146': '600'}
+            'sta_dict': {'SzpielP': 'Peezda345!?,.', 'Gdanska146': '60021045'}
         }
         solution_dict = {
             'pH_min': 5.5,

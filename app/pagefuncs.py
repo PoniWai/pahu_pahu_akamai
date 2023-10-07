@@ -155,14 +155,56 @@ def handle_settings(client, request, sets):
         print('Error:', exc)
     if sets_dict == 'wifi':
         try:
-            with open('app/templates/sets_wifi.html', 'r', encoding='utf-8') as file:
-                client.sendall(
-                    file.read().format(sets.wifi_dict['sta_ssid'],
-                                       sets.wifi_dict['sta_password'],
-                                       sets.wifi_dict['ap_ssid'],
-                                       sets.wifi_dict['ap_password'],
-                                       sets.wifi_dict['ap_channel'],
-                                       ))
+            client.sendall("""\
+<h2>WiFi</h2>
+<form action="/save" method="post">
+    <input type="hidden" id="dict" name="dict" value="wifi">
+    <h3>Access Point</h3>
+    <label for="ap_ssid">SSID </label>
+    <input type="text" id="ap_ssid" name="ap_ssid" value="{0}">
+    <br>
+    <label for="ap_password">Password </label>
+    <input type="text" id="ap_password" name="ap_password" value="{1}">
+    <br>
+    <label for="ap_channel">Channel </label>
+    <input type="number" id="ap_channel" name="ap_channel" min="1" max="12" value="{2}">
+    <br>
+    <h3>Station</h3>
+    
+                
+                
+                
+                
+                """.format(sets.wifi_dict['ap_ssid'],
+                           sets.wifi_dict['ap_password'],
+                           sets.wifi_dict['ap_channel'],
+                           ))
+
+            logins_dict = sets.wifi_dict['sta_dict']
+            for ssid in logins_dict:
+                password = logins_dict[ssid]
+
+# TODO: show logins at page
+                client.sendall("""\
+                <p>Saved logins</p>
+
+                
+                """.format(
+
+                ))
+
+                client.sendall("""\
+    <label for="sta_ssid">SSID </label>
+        <input type="text" id="sta_ssid" name="sta_ssid" value="{0}">
+        <br>
+        <label for="sta_password">Password </label>
+        <input type="text" id="sta_password" name="sta_password" value="{1}">
+        <br>
+    <input type="submit" value="Save" class="button">
+    <br>
+    <p>Legal password symbols: * - ! ? , . ; : _ ( ) ZalOopa 666</p>
+</form>
+                """.format(ssid, password))
         except OSError as exc:
             print('Error:', exc)
     elif sets_dict == 'solution':
