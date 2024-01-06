@@ -7,7 +7,7 @@ import onewire
 import dht
 from machine import Pin, ADC
 
-from sets import Settings
+from app.sets import Settings
 
 
 class Params:
