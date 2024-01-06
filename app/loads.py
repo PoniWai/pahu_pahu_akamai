@@ -71,12 +71,12 @@ charge_relay.off()
 # food for plants
 main_light = Pin(17, Pin.OUT)
 central_light = Pin(33, Pin.OUT)
-# blue_light = Pin(25, Pin.OUT)
-# black_light = Pin(26, Pin.OUT)
+# blue_light = Pin(26, Pin.OUT)
+# black_light = Pin(25, Pin.OUT)
 
 # pump = Pin(32, Pin.OUT)
 
-cool_out = Pin(25, Pin.OUT)
+cool_out = Pin(26, Pin.OUT)
 
 # reserved
 # rez = Pin(5, Pin.OUT)
