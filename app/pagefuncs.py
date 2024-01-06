@@ -61,7 +61,7 @@ def handle_monitor(client, pars):
     try:
         with open('app/templates/monitor.html', 'r', encoding='utf-8') as file:
             client.sendall(
-                file.read().format(str(pars['chip_tmp'])
+                file.read().format(str(pars['chip_tmp']),
                                    str(pars['ec_upper']),
                                    str(pars['ec_lower']),
                                    str(round(pars['air_ds_temp'], 1)),
