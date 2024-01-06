@@ -25,29 +25,29 @@ def sensors_thread():
         loads.on_light()
         time.sleep(2)
         
-        loads.cool_out.on()
-        time.sleep(2)
+        # loads.cool_out.on()
+        # time.sleep(2)
         
-        loads.on_cool_top()
-        time.sleep(2)
+        # loads.on_cool_top()
+        # time.sleep(2)
         
-        loads.on_cool_brd()
-        time.sleep(2)
+        # loads.on_cool_brd()
+        # time.sleep(2)
 
 
         loads.off_light()
         loads.on_cool_brd()
         time.sleep(2)
         
-        loads.cool_out.off()
-        time.sleep(2)
+        # loads.cool_out.off()
+        # time.sleep(2)
         
-        loads.off_cool_top()
-        time.sleep(2)
+        # loads.off_cool_top()
+        # time.sleep(2)
         
-        loads.off_cool_brd()
-        time.sleep(2)
+        # loads.off_cool_brd()
+        # time.sleep(2)
 
 
 _thread.start_new_thread(web_thread, ())
-_thread.start_new_thread(sensors_thread, ())
+# _thread.start_new_thread(sensors_thread, ())
