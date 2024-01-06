@@ -61,17 +61,18 @@ def handle_monitor(client, pars):
     try:
         with open('app/templates/monitor.html', 'r', encoding='utf-8') as file:
             client.sendall(
-                file.read().format(str(pars['pH']),
+                file.read().format(str(pars['chip_tmp'])
                                    str(pars['ec_upper']),
                                    str(pars['ec_lower']),
+                                   str(round(pars['air_ds_temp'], 1)),
+                                   str(round(pars['space_ds_temp'], 1)),
+                                   str(pars['brd_tmp']),                                   
+                                   str(pars['brd_hmd']),
+                                   str(round(pars['air_tmp'], 1)),
+                                   str(round(pars['air_hmd'], 1)),
                                    str(pars['i_bat']),
                                    str(pars['v_bat']),
                                    str(pars['v_ps']),
-                                   str(round(pars['solution_temp'], 1)),
-                                   str(round(pars['air_temp'], 1)),
-                                   str(round(pars['space_temp'], 1)),
-                                   str(pars['brd_dht_temp']),
-                                   str(pars['humidity']),
                                    ))
     except OSError as exc:
         print('Error:', exc)
@@ -81,38 +82,24 @@ def handle_monitor(client, pars):
 def handle_1w_calibration(client, sets, temps):
     send_header(client)
     give_head(client, '1wire Calibration', 10)
-    disabled = 'disabled' if sets.sensors_dict['solution_temp'] is '' else ''
     data = f"""\
     <form action="/save" method="post">
       <input type="hidden" id="dict" name="dict" value="1w">
-      <label for="miska">Miska: </label>
-      {sets.onewire_dict['miska']}<br>
-      <select name="miska" id="miska" {disabled}>
-    """
-    for rom in temps:
-        data += '<option value="' + rom + '">' + rom + ' | ' + \
-                str(round(temps[rom], 1)) + '&#8451;</option>'
-    disabled = 'disabled' if sets.sensors_dict['air_temp'] is '' else ''
-    data += f"""\
-        <option value="None">None</option>
-      </select><br><br>
       <label for="air">Air: </label>
       {sets.onewire_dict['air']}<br>
-      <select name="air" id="air" {disabled}>
+      <select name="air" id="air">
     """
     for rom in temps:
         data += f'<option value="{rom}"> {rom} | {round(temps[rom], 1)}&#8451;</option>'
-    disabled = 'disabled' if sets.sensors_dict['space_temp'] is '' else ''
     data += f"""\
         <option value="None">None</option>
       </select><br><br>
       <label for="space">Space: </label>
       {sets.onewire_dict['space']}<br>
-      <select name="space" id="space" {disabled}>
+      <select name="space" id="space">
     """
     for rom in temps:
-        data += '<option value="' + rom + '">' + rom + ' | ' + \
-                str(round(temps[rom], 1)) + '&#8451;</option>'
+        data += f'<option value="{rom}"> {rom} | {round(temps[rom], 1)}&#8451;</option>'
     data += """\
       <option value="None">None</option>
     </select><br><br>

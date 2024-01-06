@@ -6,22 +6,18 @@ class Settings:
 
     def __init__(self,
                  wifi_dict,
-                 solution_dict,
                  air_dict,
+                 space_dict,
                  power_dict,
                  light_dict,
                  onewire_dict,
-                 anal_dict,
-                 sensors_dict,
                  ):
         self.wifi_dict = wifi_dict
-        self.solution_dict = solution_dict
         self.air_dict = air_dict
+        self.space_dict = space_dict
         self.power_dict = power_dict
         self.light_dict = light_dict
         self.onewire_dict = onewire_dict
-        self.anal_dict = anal_dict
-        self.sensors_dict = sensors_dict
 
     @staticmethod
     def get_default_settings():
@@ -31,13 +27,15 @@ class Settings:
             'ap_channel': 7,
             'sta_dict': {'SzpielP': 'Peezda345!?,.', 'Gdanska146': '60021045'}
         }
-        solution_dict = {
-            'pH_min': 5.5,
-            'pH_max': 7.5,
-            'ec_min': 0.0,
-            'ec_max': 1.0,
-            'solution_temp_min': 13,
-            'solution_temp_max': 23,
+        air_dict = {
+            'air_rh_min': 0,
+            'air_rh_max': 100,
+            'air_temp_min': 17,
+            'air_temp_max': 34,
+        }
+        space_dict = {
+            'space_temp_min': 17,
+            'space_temp_max': 34,
         }
         power_dict = {
             'v_bat_min': 7.5,
@@ -46,15 +44,8 @@ class Settings:
             'v_ps_max': 14.5,
             'brd_temp_min': 0,
             'brd_temp_max': 50,
-            'high_voltage': 5,
-        }
-        air_dict = {
-            'rh_min': 0,
-            'rh_max': 100,
-            'pressure_min': 80_000,
-            'pressure_max': 120_000,
-            'air_temp_min': 17,
-            'air_temp_max': 34,
+            'brd_rh_min': 0,
+            'brd_rh_max': 100,
         }
         light_dict = {
             'full_time': False,
@@ -89,33 +80,16 @@ class Settings:
             'frt_days': 22,
         }
         onewire_dict = {
-            'miska': None,
             'air': None,
             'space': None,
         }
-        anal_dict = {
-            'pH_k': 0.0,
-            'pH_b': 0.0,
-            'ec_k': 0.0,
-            'ec_b': 0.0,
-        }
-        sensors_dict = {
-            'solution_temp': 'checked',
-            'air_temp': 'checked',
-            'space_temp': 'checked',
-            'dht11': 'checked',
-            'bmp085': '',
-            'co2': '',
-            'v_bat': 'checked',
-        }
+
         return Settings(wifi_dict,
-                        solution_dict,
                         air_dict,
+                        space_dict,
                         power_dict,
                         light_dict,
                         onewire_dict,
-                        anal_dict,
-                        sensors_dict,
                         )
 
     def save_settings(self):

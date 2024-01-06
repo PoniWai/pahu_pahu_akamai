@@ -1,13 +1,42 @@
 from machine import Pin
 
 
-def anal_ps(mode):
-    if mode is 'on':
-        anal_pwr.off()  # feedback pulled low = start
-    elif mode is 'off':
-        anal_pwr.on()  # feedback pulled high = stop
-    else:
-        pass
+def on_cool_brd():
+    v1.off()
+    v2.off()
+    v0.on()
+
+def off_cool_brd():
+    v0.off()
+    v1.off()
+    v2.off()
+
+
+def on_cool_top():
+    f1.off()
+    f0.on()
+    f2.on()
+
+def off_cool_top():
+    f0.off()
+    f1.off()
+    f2.off()
+
+
+def on_light():
+    v2.off()
+    v0.on()
+    v1.on()
+    main_light.on()
+    central_light.on()    
+
+def off_light():
+    v0.off()
+    v1.off()
+    v2.off()
+    central_light.off()
+    main_light.off()
+
 
 
 v0 = Pin(13, Pin.OUT)
@@ -21,7 +50,6 @@ v2 = Pin(12, Pin.OUT)  # boot fail if pulled high
 # black_valve = v1 & v2
 # white_valve = v0 & v1 & v2
 
-
 f0 = Pin(2, Pin.OUT)
 f1 = Pin(4, Pin.OUT)
 f2 = Pin(16, Pin.OUT)
@@ -33,22 +61,25 @@ f2 = Pin(16, Pin.OUT)
 # humidifier = f1 & f2
 
 
-# charge anal
 anal_pwr = Pin(18, Pin.OUT)  # 1 = off, 0 = on
 anal_pwr.on()  # feedback pulled high
 
 charge_relay = Pin(19, Pin.OUT)
 charge_relay.off()
 
+
 # food for plants
 main_light = Pin(17, Pin.OUT)
-blue_light = Pin(26, Pin.OUT)
-black_light = Pin(25, Pin.OUT)
+central_light = Pin(33, Pin.OUT)
+# blue_light = Pin(25, Pin.OUT)
+# black_light = Pin(26, Pin.OUT)
 
-pump = Pin(32, Pin.OUT)
+# pump = Pin(32, Pin.OUT)
 
-high_voltage = Pin(33, Pin.OUT)
+cool_out = Pin(25, Pin.OUT)
 
 # reserved
-rez = Pin(5, Pin.OUT)
+# rez = Pin(5, Pin.OUT)
+
 rez2 = Pin(15, Pin.OUT)  # pwm at boot
+rez2.off() # turn off current source

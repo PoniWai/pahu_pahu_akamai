@@ -1,49 +1,67 @@
 import time
 
+import esp32
+
 import ds18x20
 import onewire
 import dht
 from machine import Pin, ADC
 
-from app.loads import anal_ps
 from sets import Settings
-        
+
 
 class Params:
-    #ds18b20
-    solution_temp = -666
-    air_temp = -666
-    space_temp = -666
-    #dht11
-    brd_temp = -666
+
+    # chip
+    chip_tmp = -666
+
+    # ds18b20
+    air_ds_tmp = -666
+    space_ds_tmp = -666
+
+    # dht11
+    brd_tmp = -666
     brd_hmd = -666
-    #dht22
-    air_temp = -666
+
+    # dht22
+    air_tmp = -666
     air_hmd = -666
-    
-    pH = -666
+
+    # soil
     ec_upper = -666
     ec_lower = -666
+
+    # power
+    i_bat = -666
     v_bat = -666
     v_ps = -666
-    i_bat = -666
 
-    # def __init__(self,
-    #              solution_temp,
-    #              air_temp,
-    #              space_temp,
-    #              brd_dht_temp,
-    #              humidity,
-    #              brd_bmp_temp,
-    #              pressure,
-    #              ):
-    #     self.solution_temp = solution_temp
-    #     self.air_temp = air_temp
-    #     self.space_temp = space_temp
-    #     self.brd_dht_temp = brd_dht_temp
-    #     self.humidity = humidity
-    #     self.brd_bmp_temp = brd_bmp_temp
-    #     self.pressure = pressure
+    def __init__(self,
+                 chip_tmp,
+                 air_ds_tmp,
+                 space_ds_tmp,
+                 brd_tmp,
+                 brd_hmd,
+                 air_tmp,
+                 air_hmd,
+                 ec_upper,
+                 ec_lower,
+                 i_bat,
+                 v_bat,
+                 v_ps,
+                 ):
+        self.chip_tmp = chip_tmp
+        self.air_ds_tmp = air_ds_tmp
+        self.space_ds_tmp = space_ds_tmp
+        self.brd_tmp = brd_tmp
+        self.brd_hmd = brd_hmd
+        self.air_tmp = air_tmp
+        self.air_hmd = air_hmd
+        self.ec_upper = ec_upper
+        self.ec_lower = ec_lower
+        self.i_bat = i_bat
+        self.v_bat = v_bat
+        self.v_ps = v_ps
 
     def onw_read():
         roms = ds18b20.scan()
@@ -51,55 +69,51 @@ class Params:
         time.sleep(0.75)
         temps = {}
         for rom in roms:
-            temps[''.join('%02X' % i for i in iter(rom))] = ds18b20.read_temp(rom)
+            temps[''.join('%02X' % i for i in iter(rom))
+                  ] = ds18b20.read_temp(rom)
         return temps
 
     @staticmethod
     def digi_sensors():
         try:
+            # chip Temperature
+            Params.chip_tmp = (esp32.raw_temperature()-32)/1.8
+
             # DS18B20 Temperatures
             onewire_dict = Settings.load_settings().onewire_dict
             temps = Params.onw_read()
-            if onewire_dict['miska'] is not None:
-                Params.solution_temp = temps[onewire_dict['miska']]
+
             if onewire_dict['air'] is not None:
-                Params.air_temp = temps[onewire_dict['air']]
+                Params.air_ds_tmp = temps[onewire_dict['air']]
             if onewire_dict['space'] is not None:
-                Params.space_temp = temps[onewire_dict['space']]
-            channel_sw.off()
+                Params.space_ds_tmp = temps[onewire_dict['space']]
+
             # DHT11 sensor
             dht11.measure()
-            Params.brd_dht_temp = dht11.temperature()
-            Params.humidity = dht11.humidity()
+            Params.brd_tmp = dht11.temperature()
+            Params.brd_hmd = dht11.humidity()
+
             # DHT22 sensor
             dht22.measure()
-            Params.brd_bmp_temp = bmp085.temperature
-            Params.pressure = bmp085.pressure
+            Params.air_tmp = dht22.temperature()
+            Params.air_hmd = dht22.humidity()
         except OSError as e:
             print(e)
 
-    @staticmethod
-    def anal_sensors(heat=False):
+    @ staticmethod
+    def anal_sensors():
         try:
-            anal_ps('on')
             channel_sw.on()
             time.sleep(1)
-            if heat:
-                co2_htr.on()
             Params.v_ps = voltage.read()
             Params.ec_lower = ec.read()
             channel_sw.off()
             time.sleep(1)
             Params.v_bat = voltage.read()
+            Params.i_bat = current.read()
             Params.ec_upper = ec.read()
-            Params.pH = pH.read()
-            if heat:
-                time.sleep(20)
-                Params.co2 = co2.read()
-            co2_htr.off()
-            anal_ps('off')
-        except OSError as e:
-            print(e)
+        except OSError as exc:
+            print(exc)
 
 
 # anal pins
@@ -113,12 +127,9 @@ voltage.atten(ADC.ATTN_11DB)  # Full range: 3.3v
 ec = ADC(Pin(39))
 ec.atten(ADC.ATTN_11DB)  # Full range: 3.3v
 
-pH = ADC(Pin(36))
-pH.atten(ADC.ATTN_11DB)  # Full range: 3.3v
-
-channel_sw = Pin(14, Pin.OUT)  # pwm at boot
-
 # digi sensors
-ds18b20 = ds18x20.DS18X20(onewire.OneWire(Pin(23)))  # pwm at boot, boot pin
+ds18b20 = ds18x20.DS18X20(onewire.OneWire(Pin(23)))
 dht11 = dht.DHT11(Pin(21))
 dht22 = dht.DHT22(Pin(22))
+
+channel_sw = Pin(14, Pin.OUT)  # pwm at boot

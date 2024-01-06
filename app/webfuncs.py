@@ -1,5 +1,5 @@
 import app.pagefuncs as pagefuncs
-# from params import Params
+from app.params import Params
 from app.sets import Settings
 
 try:

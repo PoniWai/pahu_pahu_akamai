@@ -10,8 +10,10 @@ def connect_and_update():
         wlan = wifi.get_connection()
         if wlan is not None:
             net_conf = wlan.ifconfig()
-            print(f'\nIP: {net_conf[0]} Subnet: {net_conf[1]}\nGateway: {net_conf[2]} DNS: {net_conf[3]}')
-            otaUpdater = OTAUpdater('https://github.com/PoniWai/pahu_pahu_akamai')
+            print(
+                f'\nIP: {net_conf[0]} Subnet: {net_conf[1]}\nGateway: {net_conf[2]} DNS: {net_conf[3]}')
+            otaUpdater = OTAUpdater(
+                'https://github.com/PoniWai/pahu_pahu_akamai')
             hasUpdated = otaUpdater.install_update_if_available()
             if hasUpdated:
                 machine.reset()
