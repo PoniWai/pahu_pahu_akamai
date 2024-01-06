@@ -48,24 +48,18 @@ def save_sets(client, request):
             for k in sets.onewire_dict:
                 if k in response_dict:
                     sets.onewire_dict[k] = response_dict[k]
-        elif key == 'anal':
-            if len(sets.anal_dict) == len(response_dict):
-                sets.anal_dict = response_dict
         elif key == 'wifi':
             if len(sets.wifi_dict) == len(response_dict):
                 sets.wifi_dict = response_dict
-        elif key == 'solution':
-            if len(sets.solution_dict) == len(response_dict):
-                sets.solution_dict = response_dict
+        elif key == 'space':
+            if len(sets.space_dict) == len(response_dict):
+                sets.space_dict = response_dict
         elif key == 'air':
             if len(sets.air_dict) == len(response_dict):
                 sets.air_dict = response_dict
         elif key == 'light':
             if len(sets.light_dict) == len(response_dict):
                 sets.light_dict = response_dict
-        elif key == 'sensors':
-            for k in sets.sensors_dict:
-                sets.sensors_dict[k] = 'checked' if k in response_dict else ''
         else:
             pagefuncs.send_response(client, "Peezda", status_code=400)
     else:
@@ -74,13 +68,11 @@ def save_sets(client, request):
     if sets.save_settings():
         pagefuncs.send_response(client,
                                 '<p>' + str(sets.wifi_dict) +
-                                '</p><p>' + str(sets.power_dict) +
-                                '</p><p>' + str(sets.solution_dict) +
                                 '</p><p>' + str(sets.air_dict) +
+                                '</p><p>' + str(sets.space_dict) +                                '</p><p>' + str(sets.power_dict) +
+                                '</p><p>' + str(sets.power_dict) +
                                 '</p><p>' + str(sets.light_dict) +
-                                '</p><p>' + str(sets.onewire_dict) +
-                                '</p><p>' + str(sets.anal_dict) +
-                                '</p><p>' + str(sets.sensors_dict) + '</p>',
+                                '</p><p>' + str(sets.onewire_dict),
                                 status_code=200)
     else:
         pagefuncs.send_response(client, "Peezda", status_code=400)
