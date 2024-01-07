@@ -97,8 +97,8 @@ class Params:
             dht22.measure()
             Params.air_tmp = dht22.temperature()
             Params.air_hmd = dht22.humidity()
-        except OSError as e:
-            print(e)
+        except OSError as exc:
+            print(exc)
 
     @ staticmethod
     def anal_sensors():
