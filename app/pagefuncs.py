@@ -56,6 +56,7 @@ def handle_index(client):
 
 
 def handle_monitor(client, pars):
+    print(pars)
     send_header(client)
     give_head(client, 'Hujawei Monitor', 20)
     try:
