@@ -1,4 +1,5 @@
 from machine import Pin
+from app.params import Params
 
 
 def on_cool_brd():
@@ -38,6 +39,20 @@ def off_light():
     main_light.off()
 
 
+def check_top_tmp():
+     
+    if Params.space_ds_tmp > 30: 
+        on_cool_top()
+    elif Params.space_ds_tmp < 20:
+        off_cool_top()
+
+
+def check_brd():
+    if Params.brd_tmp > 35 or Params.brd_hmd > 70:
+        on_cool_brd()
+    elif Params.brd_tmp < 25 and Params.brd_hmd < 50:
+        off_cool_brd()
+
 
 v0 = Pin(13, Pin.OUT)
 v1 = Pin(27, Pin.OUT)
@@ -59,13 +74,6 @@ f2 = Pin(16, Pin.OUT)
 # cool_crc3 = f2
 # cool_top = f0 & f2
 # humidifier = f1 & f2
-
-
-anal_pwr = Pin(18, Pin.OUT)  # 1 = off, 0 = on
-anal_pwr.on()  # feedback pulled high
-
-charge_relay = Pin(19, Pin.OUT)
-charge_relay.off()
 
 
 # food for plants

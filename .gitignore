@@ -4,4 +4,3 @@ venv/
 .git/
 .vscode/
 webrepl_cfg.py
-settings.json

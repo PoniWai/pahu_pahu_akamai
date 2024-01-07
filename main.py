@@ -24,7 +24,7 @@ def connect_and_update():
         print('Update error:', exc)
 
 
-connect_and_update()
+# connect_and_update()
 
 
 

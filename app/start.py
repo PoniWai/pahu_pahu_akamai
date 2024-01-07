@@ -4,6 +4,7 @@ import lib.wifi as wifi
 import app.loads as loads
 import app.webfuncs as webfuncs
 from app.params import Params
+import app.battery
 
 
 def web_thread():
@@ -18,36 +19,37 @@ def web_thread():
 
 
 def sensors_thread():
+    loads.on_light()
+      
     while True:
-        Params.digi_sensors()        
+        loads.cool_out.on()
+    
+        # Read sensors
+        Params.digi_sensors()
         Params.anal_sensors()
-        
-        loads.on_light()
-        time.sleep(2)
-        
-        # loads.cool_out.on()
-        # time.sleep(2)
-        
-        # loads.on_cool_top()
-        # time.sleep(2)
-        
-        # loads.on_cool_brd()
-        # time.sleep(2)
-
-
-        loads.off_light()
-        loads.on_cool_brd()
-        time.sleep(2)
-        
-        # loads.cool_out.off()
-        # time.sleep(2)
-        
-        # loads.off_cool_top()
-        # time.sleep(2)
-        
-        # loads.off_cool_brd()
-        # time.sleep(2)
-
+        # Check parameters and run coolers if needed
+        loads.check_top_tmp()
+        loads.check_brd()
+        print('\n\n\n')
+        print('----==Soil Moisture==-----\n')
+        print(f'upper: {round(Params.ec_upper/40.96, 1)} | \
+            lower: {round(Params.ec_lower/40.96, 1)}\n')
+        print('----==Air==----\n')
+        print(f'Temperatures: ds {round(Params.air_ds_tmp, 1)} | \
+            dht {Params.air_tmp}\n')
+        print(f'Humidity: {Params.air_hmd}\n')
+        print('----==Space==----\n')
+        print(f'Temperature: {round(Params.space_ds_tmp, 1)}\n')
+        print('----==Board==----\n')
+        print(f'Temperature: {Params.brd_tmp} | \
+            Humidity: {Params.brd_hmd}\n')
+        print('----==Power==----\n')
+        print('----==Power==----\n')
+        print(f'Chip temperature: {round(Params.chip_tmp, 1)} | \
+            +12V: {round(Params.v_ps*0.0123, 1)}\n')
+        print('\n\n\n')
+        time.sleep(15)
+    
 
 _thread.start_new_thread(web_thread, ())
 # _thread.start_new_thread(sensors_thread, ())

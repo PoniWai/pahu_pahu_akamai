@@ -103,9 +103,7 @@ class Params:
     @ staticmethod
     def anal_sensors():
         try:
-            charge_relay.on()
             channel_sw.on()
-            anal_pwr.off()
             time.sleep(1)
             Params.v_bat = voltage.read()
             Params.i_bat = current.read()
@@ -115,8 +113,6 @@ class Params:
             time.sleep(1)
             Params.v_ps = voltage.read()
             Params.ec_lower = ec.read()
-            anal_pwr.on()
-            charge_relay.off()
 
         except OSError as exc:
             print(exc)
@@ -139,12 +135,3 @@ dht11 = dht.DHT11(Pin(21))
 dht22 = dht.DHT22(Pin(22))
 
 channel_sw = Pin(14, Pin.OUT)  # pwm at boot
-
-
-
-
-
-anal_pwr = Pin(18, Pin.OUT)  # 1 = off, 0 = on
-anal_pwr.on()  # feedback pulled high
-charge_relay = Pin(19, Pin.OUT)
-charge_relay.off()

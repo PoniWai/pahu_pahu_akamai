@@ -18,48 +18,28 @@ def save_sets(client, request):
         .replace("%2E", ".").replace("%3A", ":").replace("%3B", ";") \
         .replace("%5F", "_").replace("%28", "(").replace("%29", ")") \
         .split("&")
-    int_list = ['ap_channel', 'solution_temp_min', 'solution_temp_max',
-                'brd_temp_min', 'brd_temp_max', 'high_voltage', 'rh_min',
-                'rh_max', 'pressure_min', 'pressure_max', 'air_temp_min',
-                'air_temp_max', 'seed_days', 'veg_uva_mins', 'veg_days',
-                'blm_uva_mins', 'blm_days', 'frt_uva_mins', 'frt_days',
-                ]
-    float_list = ['pH_min', 'pH_max', 'ec_min', 'ec_max', 'v_bat_min',
-                  'v_bat_max', 'v_ps_min', 'v_ps_max', 'pH_k', 'pH_b', 'ec_k',
-                  'ec_b',
-                  ]
+    int_list = ['ap_channel']
     response_dict = {}
     for element in ampersand_split:
         equal_split = element.split("=")
         if equal_split[0] in int_list:
             response_dict[equal_split[0]] = int(equal_split[1])
-        elif equal_split[0] in float_list:
-            response_dict[equal_split[0]] = float(equal_split[1])
         else:
             response_dict[equal_split[0]] = equal_split[1]
 
     key = response_dict.pop('dict', None)
     if key is not None:
         sets = Settings.load_settings()
-        if key == 'power':
-            if len(sets.power_dict) == len(response_dict):
-                sets.power_dict = response_dict
-        elif key == '1w':
+        if key == '1w':
             for k in sets.onewire_dict:
                 if k in response_dict:
                     sets.onewire_dict[k] = response_dict[k]
         elif key == 'wifi':
             if len(sets.wifi_dict) == len(response_dict):
                 sets.wifi_dict = response_dict
-        elif key == 'space':
-            if len(sets.space_dict) == len(response_dict):
-                sets.space_dict = response_dict
-        elif key == 'air':
-            if len(sets.air_dict) == len(response_dict):
-                sets.air_dict = response_dict
-        elif key == 'light':
-            if len(sets.light_dict) == len(response_dict):
-                sets.light_dict = response_dict
+        elif key == 'loads':
+            if len(sets.loads_dict) == len(response_dict):
+                sets.loads_dict = response_dict
         else:
             pagefuncs.send_response(client, "Peezda", status_code=400)
     else:
@@ -68,11 +48,8 @@ def save_sets(client, request):
     if sets.save_settings():
         pagefuncs.send_response(client,
                                 '<p>' + str(sets.wifi_dict) +
-                                '</p><p>' + str(sets.air_dict) +
-                                '</p><p>' + str(sets.space_dict) +                                '</p><p>' + str(sets.power_dict) +
-                                '</p><p>' + str(sets.power_dict) +
-                                '</p><p>' + str(sets.light_dict) +
-                                '</p><p>' + str(sets.onewire_dict),
+                                '</p><p>' + str(sets.onewire_dict) +
+                                '</p><p>' + str(sets.loads_dict),
                                 status_code=200)
     else:
         pagefuncs.send_response(client, "Peezda", status_code=400)
@@ -129,12 +106,6 @@ def start_web(ip, port=80):
                     client,
                     Settings.load_settings(),
                     Params.onw_read(),
-                )
-
-            elif str(request).find('/analcalibr') == 6:
-                pagefuncs.handle_anal_calibration(
-                    client,
-                    Settings.load_settings().anal_dict,
                 )
 
             elif str(request).find('/monitor') == 6:
