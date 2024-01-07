@@ -71,11 +71,13 @@ class OTAUpdater:
         try:
             version = gh_json['tag_name']
         except KeyError as exc:
-            raise ValueError(
+            print(
                 "Release not found: \n",
                 "Please ensure release as marked as 'latest', rather than pre-release \n",
-                f"github api message: \n {gh_json} \n "
-            ) from exc
+                f"github api message: \n {gh_json} \n",
+                exc
+            )
+            return '0.0'
         latest_release.close()
         return version
 

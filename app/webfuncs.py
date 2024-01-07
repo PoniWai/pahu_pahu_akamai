@@ -138,6 +138,8 @@ def start_web(ip, port=80):
                 )
 
             elif str(request).find('/monitor') == 6:
+                Params.digi_sensors()
+                Params.anal_sensors()
                 pagefuncs.handle_monitor(client, Params.__dict__)
 
             elif str(request).find('/restart') == 6:
