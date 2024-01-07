@@ -7,6 +7,7 @@ def on_cool_brd():
     v2.off()
     v0.on()
 
+
 def off_cool_brd():
     v0.off()
     v1.off()
@@ -17,6 +18,7 @@ def on_cool_top():
     f1.off()
     f0.on()
     f2.on()
+
 
 def off_cool_top():
     f0.off()
@@ -29,7 +31,8 @@ def on_light():
     v0.on()
     v1.on()
     main_light.on()
-    central_light.on()    
+    central_light.on()
+
 
 def off_light():
     v0.off()
@@ -40,8 +43,8 @@ def off_light():
 
 
 def check_top_tmp():
-     
-    if Params.space_ds_tmp > 39: 
+
+    if Params.space_ds_tmp > 39:
         on_cool_top()
     elif Params.space_ds_tmp < 29:
         off_cool_top()
@@ -90,4 +93,4 @@ cool_out = Pin(26, Pin.OUT)
 # rez = Pin(5, Pin.OUT)
 
 rez2 = Pin(15, Pin.OUT)  # pwm at boot
-rez2.off() # turn off current source
+rez2.off()  # turn off current source
