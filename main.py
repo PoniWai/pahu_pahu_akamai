@@ -24,9 +24,9 @@ def connect_and_update():
         print('Update error:', exc)
 
 
-def start_app():
-    import app.start
-
-
 connect_and_update()
-start_app()
+
+
+
+
+import app.start
