@@ -82,12 +82,13 @@ class Params:
             # DS18B20 Temperatures
             onewire_dict = Settings.load_settings().onewire_dict
             temps = Params.onw_read()
-
-            if onewire_dict['air'] is not None:
-                Params.air_ds_tmp = temps[onewire_dict['air']]
-            if onewire_dict['space'] is not None:
-                Params.space_ds_tmp = temps[onewire_dict['space']]
-
+            try:
+                if onewire_dict['air'] is not None:
+                    Params.air_ds_tmp = temps[onewire_dict['air']]
+                if onewire_dict['space'] is not None:
+                    Params.space_ds_tmp = temps[onewire_dict['space']]
+            except KeyError as exc:
+                print(exc)
             # DHT11 sensor
             dht11.measure()
             Params.brd_tmp = dht11.temperature()

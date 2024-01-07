@@ -41,16 +41,16 @@ def off_light():
 
 def check_top_tmp():
      
-    if Params.space_ds_tmp > 30: 
+    if Params.space_ds_tmp > 39: 
         on_cool_top()
-    elif Params.space_ds_tmp < 20:
+    elif Params.space_ds_tmp < 29:
         off_cool_top()
 
 
 def check_brd():
-    if Params.brd_tmp > 35 or Params.brd_hmd > 70:
+    if Params.brd_tmp > 40 or Params.brd_hmd > 70 or Params.chip_tmp > 60:
         on_cool_brd()
-    elif Params.brd_tmp < 25 and Params.brd_hmd < 50:
+    elif Params.brd_tmp < 35 and Params.brd_hmd < 50 and Params.chip_tmp < 55:
         off_cool_brd()
 
 
