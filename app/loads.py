@@ -55,7 +55,7 @@ def check_brd():
         on_cool_brd()
     elif Params.brd_tmp < 35 and Params.brd_hmd < 50 and Params.chip_tmp < 55:
         off_cool_brd()
-
+        on_light()
 
 v0 = Pin(13, Pin.OUT)
 v1 = Pin(27, Pin.OUT)
