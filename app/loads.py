@@ -51,6 +51,13 @@ def check_top_tmp():
         on_light()
 
  
+def check_brd():
+    if Params.brd_tmp > 40 or Params.brd_hmd > 70 or Params.chip_tmp > 60:
+        on_cool_brd()
+    elif Params.brd_tmp < 35 and Params.brd_hmd < 50 and Params.chip_tmp < 55:
+        off_cool_brd()
+
+
 v0 = Pin(13, Pin.OUT)
 v1 = Pin(27, Pin.OUT)
 v2 = Pin(12, Pin.OUT)  # boot fail if pulled high

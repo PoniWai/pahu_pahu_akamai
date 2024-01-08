@@ -23,12 +23,12 @@ def sensors_thread():
       
     while True:
         loads.cool_out.on()
-        loads.on_cool_brd()
         # Read sensors
         Params.digi_sensors()
         Params.anal_sensors()
         # Check parameters and run coolers if needed
         loads.check_top_tmp()
+        loads.check_brd()
         time_tpl = time.localtime(time.time())
         print('\n\n\n')
         print(f'Y-{time_tpl[0]-1970} M-{time_tpl[1]} D-{time_tpl[2]} | {time_tpl[3]}:{time_tpl[4]}:{time_tpl[5]}')
