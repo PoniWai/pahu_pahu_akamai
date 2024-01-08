@@ -44,9 +44,9 @@ def off_light():
 
 def check_top_tmp():
 
-    if Params.space_ds_tmp > 39:
+    if Params.space_ds_tmp > 40:
         on_cool_top()
-    elif Params.space_ds_tmp < 29:
+    elif Params.space_ds_tmp < 35:
         off_cool_top()
 
 
@@ -56,6 +56,7 @@ def check_brd():
     elif Params.brd_tmp < 35 and Params.brd_hmd < 50 and Params.chip_tmp < 55:
         off_cool_brd()
         on_light()
+
 
 v0 = Pin(13, Pin.OUT)
 v1 = Pin(27, Pin.OUT)
