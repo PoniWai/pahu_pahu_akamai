@@ -27,17 +27,17 @@ def off_cool_top():
 
 
 def on_light():
+    f1.off()
     v2.off()
-    v0.on()
-    v1.on()
+    f0.on()
     main_light.on()
     central_light.on()
 
 
 def off_light():
-    v0.off()
-    v1.off()
-    v2.off()
+    f0.off()
+    f1.off()
+    f2.off()
     central_light.off()
     main_light.off()
 
@@ -48,16 +48,9 @@ def check_top_tmp():
         on_cool_top()
     elif Params.space_ds_tmp < 35:
         off_cool_top()
-
-
-def check_brd():
-    if Params.brd_tmp > 40 or Params.brd_hmd > 70 or Params.chip_tmp > 60:
-        on_cool_brd()
-    elif Params.brd_tmp < 35 and Params.brd_hmd < 50 and Params.chip_tmp < 55:
-        off_cool_brd()
         on_light()
 
-
+ 
 v0 = Pin(13, Pin.OUT)
 v1 = Pin(27, Pin.OUT)
 v2 = Pin(12, Pin.OUT)  # boot fail if pulled high
