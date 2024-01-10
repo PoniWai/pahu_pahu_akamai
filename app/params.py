@@ -64,13 +64,16 @@ class Params:
         self.v_ps = v_ps
 
     def onw_read():
-        roms = ds18b20.scan()
-        ds18b20.convert_temp()
-        time.sleep(0.75)
-        temps = {}
-        for rom in roms:
-            temps[''.join('%02X' % i for i in iter(rom))
-                  ] = ds18b20.read_temp(rom)
+        try:
+            roms = ds18b20.scan()
+            ds18b20.convert_temp()
+            time.sleep(0.75)
+            temps = {}
+            for rom in roms:
+                temps[''.join('%02X' % i for i in iter(rom))
+                    ] = ds18b20.read_temp(rom)
+        except Exception as exc:
+            print(exc)
         return temps
 
     @staticmethod

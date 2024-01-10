@@ -5,6 +5,8 @@ import app.loads as loads
 import app.webfuncs as webfuncs
 from app.params import Params
 import app.battery
+import sys
+import machine
 
 
 def web_thread():
@@ -20,7 +22,6 @@ def web_thread():
 
 def sensors_thread():
     loads.on_light()
-      
     while True:
         loads.cool_out.on()
         # Read sensors
@@ -30,6 +31,7 @@ def sensors_thread():
         loads.check_top_tmp()
         loads.check_brd()
         time_tpl = time.localtime(time.time())
+        
         print('\n\n\n')
         print(f'Y-{time_tpl[0]-1970} M-{time_tpl[1]} D-{time_tpl[2]} | {time_tpl[3]}:{time_tpl[4]}:{time_tpl[5]}')
         print('Soil Moisture==-----', end = ' ')
@@ -44,9 +46,20 @@ dht T: {Params.air_tmp} RH: {Params.air_hmd}\n')
 Humidity: {Params.brd_hmd}\n')
         print('Power==----', end = ' ')
         print(f'Chip temperature: {round(Params.chip_tmp, 1)} | \
-+12V: {round(Params.v_ps*0.004984, 1)}')
-        time.sleep(15)
++12V: {round(Params.v_ps*0.004984, 1)}\n')
+        time.sleep(18)
     
+
+def console_thread():
+    while True:
+        answer = sys.stdin.readline()
+        #     age = int(input("Enter your age: "))
+        if int(answer) == 666:
+                print('Peezda!')
+                machine.reset()
+        else:
+                print("Zaloopa!")
 
 # _thread.start_new_thread(web_thread, ())
 _thread.start_new_thread(sensors_thread, ())
+_thread.start_new_thread(console_thread, ())
